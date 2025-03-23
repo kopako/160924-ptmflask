@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy import create_engine, Integer, String, Boolean, Numeric, ForeignKey
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column, relationship, sessionmaker
 # Task 1: Create an instance of the engine to connect to the in-memory SQLite database.
@@ -50,4 +51,22 @@ Base.metadata.create_all(bind=sql_engine)
 
 SessionFabric = sessionmaker(bind=sql_engine)
 session = SessionFabric()
+
+categories: List[Category] = []
+electronic_category = Category(name="Электроника", description="Гаджеты и устройства.")
+book_category = Category(name="Книги", description="Печатные книги и электронные книги.")
+cloth_category = Category(name="Одежда", description="Одежда для мужчин и женщин.")
+categories.append(electronic_category)
+categories.append(book_category)
+categories.append(cloth_category)
+products: List[Product] = []
+products.append(Product(name="Смартфон", price=299.99, in_stock=True, category=electronic_category))
+products.append(Product(name="Ноутбук", price=499.99, in_stock=True, category=electronic_category))
+products.append(Product(name="Научно-фантастический роман", price=15.99, in_stock=True, category=book_category))
+products.append(Product(name="Джинсы", price=40.50, in_stock=True, category=cloth_category))
+products.append(Product(name="Футболка", price=20, in_stock=True, category=cloth_category))
+session.add_all(categories)
+session.add_all(products)
+session.commit()
+
 session.close()
