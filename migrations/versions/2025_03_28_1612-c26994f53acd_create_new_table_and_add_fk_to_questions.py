@@ -19,7 +19,8 @@ def upgrade():
     op.create_table('categories',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=30), nullable=False),
-    sa.PrimaryKeyConstraint('id')
+    sa.PrimaryKeyConstraint('id'),
+    if_not_exists=True
     )
     with op.batch_alter_table('questions', schema=None) as batch_op:
         batch_op.add_column(sa.Column('category_id', sa.Integer(), nullable=True))

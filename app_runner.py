@@ -12,7 +12,7 @@ def create_app() -> Flask:
     app.config.from_object(DevelopmentConfig)
     db.init_app(app)  # Base.metadata.create_all(bind=engine)
     migrate = Migrate()
-    migrate.init_app(app=app, db=db)
+    migrate.init_app(app=app, db=db, render_as_batch=True)
     app.register_blueprint(questions_bp, url_prefix="/questions")
     app.register_blueprint(answers_bp, url_prefix="/answers")
 
